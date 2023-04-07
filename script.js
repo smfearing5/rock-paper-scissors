@@ -84,5 +84,28 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+    let result = ""
 
+    for (i=1; i<=5; i++) {
+        result = playRound(getPlayerChoice(), getComputerChoice());
+        console.log(result);
+
+        if (result != "DRAW!") {
+            // add to score
+            result = result.slice(4, 5);
+            
+            if (result === 'W') playerScore++
+            else if (result === 'L') computerScore++
+            else console.log("ERROR: Scoring in game()");
+        }
+    }
+    console.log(`Player Score: ${playerScore}\nComputer Score: ${computerScore}`);
+
+    if (playerScore > computerScore) console.log("You won the game!")
+    else if (playerScore < computerScore) console.log("You lost the game!")
+    else console.log("It's a tie.  Try Again!");
+
+    return null;
 }
