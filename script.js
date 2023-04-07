@@ -6,6 +6,39 @@ function getComputerChoice() {
     return Math.floor(3 * Math.random());
 }
 
+function getPlayerChoice() {
+    let choice;
+    let invalid = true;
+
+    while (invalid) {
+        choice = prompt("Rock, Paper, or Scissors?");
+        choice = choice.toLowerCase();
+        console.log(choice);
+
+        switch (choice) {
+            case "rock":
+            case "paper":
+            case "scissors":
+                invalid = false;
+                break;
+            default:
+                alert("Invalid Selection.")
+        }
+    }
+
+    switch (choice) {
+        case "rock":
+            return 0;
+        case "paper":
+            return 1;
+        case "scissors":
+            return 2;
+        default:
+            console.log("ERROR: getPlayerChoice() failed!");
+            return null;
+    }
+}
+
 function intToRPS(num) {
     switch (num) {
         case 0:
@@ -48,4 +81,8 @@ function playRound(playerSelection, computerSelection) {
             str = "ERROR";
     }
     return str;
+}
+
+function game() {
+
 }
