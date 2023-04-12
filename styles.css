@@ -3,3 +3,29 @@ body {
     color: #eee;
     text-align: center;
 }
+
+#score-box,
+#btn-box {
+    padding: 36px;;
+}
+
+#score-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+#score-text {
+    justify-self: center;
+}
+
+#player-score,
+#computer-score {
+    font-size: 24px;;
+}
+
+#btn-box {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}

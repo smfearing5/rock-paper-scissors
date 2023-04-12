@@ -1,32 +1,24 @@
-//  0 - Rock
-//  1 - Paper
-//  2 - Scissors
+const scoreText = document.querySelector("#score-text")
+const playerScore = document.querySelector("#player-score");
+const computerScore = document.querySelector("#computer-score");
+const btnBox = document.querySelector("#btn-box");
+const results = document.querySelector("#results");
 
+let score = {
+    player: 0,
+    computer: 0
+};
+let buttons;
+startGame();
+
+// functions
 function getComputerChoice() {
     return Math.floor(3 * Math.random());
 }
 
-function getPlayerChoice() {
-    let choice;
-    let invalid = true;
-
-    while (invalid) {
-        choice = prompt("Rock, Paper, or Scissors?");
-        choice = choice.toLowerCase();
-        console.log(choice);
-
-        switch (choice) {
-            case "rock":
-            case "paper":
-            case "scissors":
-                invalid = false;
-                break;
-            default:
-                alert("Invalid Selection.")
-        }
-    }
-
-    switch (choice) {
+function rpsToInt(rps) {
+    rps = rps.toLowerCase();
+    switch (rps) {
         case "rock":
             return 0;
         case "paper":
@@ -34,10 +26,14 @@ function getPlayerChoice() {
         case "scissors":
             return 2;
         default:
-            console.log("ERROR: getPlayerChoice() failed!");
+            console.log("ERROR: rpsToInt() failed!");
             return null;
     }
 }
+
+//  0 - Rock
+//  1 - Paper
+//  2 - Scissors
 
 function intToRPS(num) {
     switch (num) {
@@ -58,11 +54,13 @@ function playRound(playerSelection, computerSelection) {
     }
 
     let compare = computerSelection - playerSelection;
-    let str = ""
+    let str = "";
 
     switch (compare) {
         case 1:
         case -2:
+            score.computer += 1;
+            computerScore.textContent = score.computer;
             str = `You Lose! ${
                 intToRPS(computerSelection)
             } beats ${
@@ -71,6 +69,8 @@ function playRound(playerSelection, computerSelection) {
             break;
         case 2:
         case -1:
+            score.player += 1;
+            playerScore.textContent = score.player;
             str = `You Win! ${
                 intToRPS(playerSelection)
             } beats ${
@@ -80,32 +80,65 @@ function playRound(playerSelection, computerSelection) {
         default:
             str = "ERROR";
     }
-    return str;
-}
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    let result = ""
-
-    for (i=1; i<=5; i++) {
-        result = playRound(getPlayerChoice(), getComputerChoice());
-        console.log(result);
-
-        if (result != "DRAW!") {
-            // add to score
-            result = result.slice(4, 5);
-            
-            if (result === 'W') playerScore++
-            else if (result === 'L') computerScore++
-            else console.log("ERROR: Scoring in game()");
-        }
+    if (winner()) {
+        return "Would you like to play again?"
     }
-    console.log(`Player Score: ${playerScore}\nComputer Score: ${computerScore}`);
-
-    if (playerScore > computerScore) console.log("You won the game!")
-    else if (playerScore < computerScore) console.log("You lost the game!")
-    else console.log("It's a tie.  Try Again!");
-
-    return null;
+    else return str;
 }
+
+function winner() {
+    if (score.player >= 5) {
+        endGame("You WIN!");
+        return true;
+    }
+    else if (score.computer >= 5) {
+        endGame("You LOSE!")
+        return true;   
+    };
+
+    return false;
+}
+
+function endGame(str) {
+    scoreText.textContent = str;
+
+    buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+        btnBox.removeChild(button);
+    });
+
+    let newGame = document.createElement("button");
+    newGame.setAttribute("id", "new-game");
+    newGame.textContent = "New Game";
+    newGame.addEventListener("click", () => startGame());
+
+    btnBox.appendChild(newGame);
+}
+
+function startGame() {
+    console.log("Starting a new game...")
+
+    score.player = 0;
+    score.computer = 0;
+    playerScore.textContent = score.player;
+    computerScore.textContent = score.computer;
+    scoreText.textContent = "SCORE";
+    results.textContent = "";
+
+    buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+        btnBox.removeChild(button);
+    });
+
+    let newButton;
+    for (i=0; i<3; i++) {
+        newButton = document.createElement("button");
+        newButton.setAttribute("id", intToRPS(i).toLowerCase());
+        newButton.textContent = intToRPS(i);
+        newButton.addEventListener("click",  () => {
+            results.textContent = playRound(rpsToInt(newButton.id), getComputerChoice());
+        });
+        btnBox.appendChild(newButton);
+    };
+};

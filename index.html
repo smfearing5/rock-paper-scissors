@@ -5,11 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
     <title>Document</title>
 </head>
 <body>
-    <script src="script.js"></script>
     <h2>Rock, Paper, Scissors</h2>
-    <div>Type game() into the console to play!</div>
+    <div id="score-box">
+        <div>
+            Player Score
+            <div id="player-score">0</div>
+        </div>
+        <h3 id="score-text">SCORE</h3>
+        <div>
+            Computer Score
+            <div id="computer-score">0</div>
+        </div>
+    </div>
+    <div id="btn-box">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+    <div id="results">This is where the results will be displayed</div>
 </body>
 </html>
